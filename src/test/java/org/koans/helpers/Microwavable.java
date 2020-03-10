@@ -2,10 +2,10 @@ package org.koans.helpers;
 
 public class Microwavable
 {
-  public String  Name;
-  public Integer FunFactor;
-  public String  Effect;
-  public String  ___;
+  public String Name;
+  public int    FunFactor;
+  public String Effect;
+  public String ___ = Koans.___;
   public static Microwavable create()
   {
     return new Microwavable();
@@ -24,5 +24,10 @@ public class Microwavable
   {
     this.Effect = effect;
     return this;
+  }
+  @Override
+  public String toString()
+  {
+    return Name + "(" + FunFactor + ")";
   }
 }

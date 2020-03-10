@@ -2,8 +2,11 @@ package org.koans;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.Closeable;
-import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -13,10 +16,21 @@ import org.koans.helpers.Microwavable;
 public class Lesson2Streams extends Koans
 {
   @Test
+  public void introducingItems() throws Exception
+  {
+    List<Microwavable> objects = ObjectsInMicrowave().collect(Collectors.toList());
+    for (Microwavable item : objects)
+    {
+      String format = "name[fun factor, effect] = %s[%s, %s]";
+      System.out.println(String.format(format, item.Name, item.FunFactor, item.Effect));
+    }
+    assertEquals("Firecrackers", objects.get(_____).Name);
+  }
+  @Test
   public void streamFilters()
   {
     Microwavable result = ObjectsInMicrowave().filter(x -> x.Name == "Ping Pong Ball").findFirst().get();
-    assertEquals(___, result.Name);
+    assertEquals(result.Name, ___);
   }
   @Test
   public void filter()
@@ -43,47 +57,69 @@ public class Lesson2Streams extends Koans
     assertEquals("Firecrackers", result);
   }
   @Test
-      public void LinqSelectPieces()
-
-      {
-    Microwavable result = ObjectsInMicrowave.Where(x -> x.Effect == "Glows").map(x -> new {x.Name, x.___})//
-              .findFirst().get();
-          assertEquals("Glows", result.___);
-          assertEquals("Light Bulbs", result.Name);
-      }
-  @Test
-  public void TheLeastFun()
+  public void selectingPieces()
   {
-    Microwavable result = ObjectsInMicrowave.OrderBy(x -> x.___)//
+    Object[] result = ObjectsInMicrowave()//
+        .filter(x -> x.Effect == "Glows")//
+        .map(x -> new Object[]{x.Name, x.___})//
+        .findFirst().get();
+    assertEquals("Glows", result[1]);
+    assertEquals("Light Bulbs", result[0]);
+  }
+  @Test
+  public void theLeastFun()
+  {
+    Microwavable result = ObjectsInMicrowave()//
+        .sorted((a, b) -> a.___.compareTo(b.___))//
+        .findFirst().get();
+    assertEquals("Boils", result.Effect);
+  }
+  @Test
+  public void betterSorting()
+  {
+    Comparator<Microwavable> comparator = Comparator.comparing(m -> m.___);
+    Microwavable result = ObjectsInMicrowave()//
+        .sorted(comparator)//
         .findFirst().get();
     assertEquals("Boils", result.Effect);
   }
   @Test
   public void StackingOrderBys()
   {
-    Microwavable result = ObjectsInMicrowave.OrderByDescending(x -> x.FunFactor).OrderByDescending(x -> x.Name)//
+    Comparator<Microwavable> byFun = Comparator.comparing(m -> m.FunFactor);
+    Comparator<Microwavable> thenByName = Comparator.comparing(m -> m.Name);
+    Microwavable result = ObjectsInMicrowave()//
+        .sorted(byFun)//
+        .sorted(thenByName.reversed())//
         .findFirst().get();
     assertEquals(___, result.FunFactor);
   }
   @Test
   public void MulitpleOrderBys()
   {
-    Microwavable result = ObjectsInMicrowave.OrderByDescending(x -> x.FunFactor).ThenByDescending(x -> x.___)//
+    Comparator<Microwavable> byFun = Comparator.comparing(m -> m.FunFactor);
+    Comparator<Microwavable> byName = Comparator.comparing(m -> m.___);
+    Comparator<Microwavable> thenByName = byFun.reversed().thenComparing(byName.reversed());
+    Microwavable result = ObjectsInMicrowave()//
+        .sorted(thenByName)//
         .findFirst().get();
     assertEquals(10, result.FunFactor);
     assertEquals("Twinkies", result.Name);
   }
   @Test
-      public void GroupBy()
-      {
-          var results = ObjectsInMicrowave.GroupBy(x -> x.FunFactor / 5).map(groupName -> groupName)
-              .OrderBy(g -> g.Key);
-          foreach (IGrouping<int, Microwavable> g in results)
-          {
-              Console.WriteLine(g.Key + ": " + String.Join(", ", g.map(m -> m.Name)));
-          }
-          assertEquals(results.First().Key, ___);
-      }
+  public void GroupBy()
+  {
+    Map<Integer, List<Microwavable>> results = ObjectsInMicrowave()//
+        .collect(Collectors.groupingBy(x -> x.FunFactor));
+    List<Entry<Integer, List<Microwavable>>> sorted = results.entrySet().stream()//
+        .sorted(Comparator.comparing(e -> e.getKey()))//
+        .collect(Collectors.toList());
+    for (Entry<Integer, List<Microwavable>> entry : sorted)
+    {
+      System.out.println(entry.getKey() + ": " + entry.getValue());
+    }
+    assertEquals(sorted.get(0).getKey(), ___);
+  }
   /********************************** helper code below ********************/
   /**
    * 
