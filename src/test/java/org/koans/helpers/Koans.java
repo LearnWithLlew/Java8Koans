@@ -1,9 +1,5 @@
 package org.koans.helpers;
 
-import java.io.File;
-
-import com.spun.util.ClassUtils;
-
 public class Koans
 {
   public static String ___   = "Please fill in the blank";
@@ -21,9 +17,5 @@ public class Koans
       b.append((char) (c + offshift));
     }
     return b.toString();
-  }
-  public String getPath(String file)
-  {
-    return ClassUtils.getSourceDirectory(getClass()).getAbsolutePath() + File.separator + file;
   }
 }
