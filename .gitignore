@@ -1,0 +1,11 @@
+*.class
+.settings
+.preferences
+.vscode
+.classpath
+.project
+target
+.idea
+*.iml
+
+*.received.*
