@@ -9,7 +9,7 @@ import org.koans.helpers.Koans;
 
 public class Lesson2Lambdas extends Koans
 {
-  public static String goodNews(String name)
+  public static String staticGoodNews(String name)
   {
     return "Good News " + name;
   }
@@ -17,6 +17,16 @@ public class Lesson2Lambdas extends Koans
   public void annomousFunctionPointers()
   {
     Function<String, String> goodNews = Lesson2Lambdas::____;
+    assertEquals("Good News Everbody", goodNews.apply("Everybody"));
+  }
+  public String goodNews(String name)
+  {
+    return "Good News " + name;
+  }
+  @Test
+  public void annomousFunctionPointersOnObjects()
+  {
+    Function<String, String> goodNews = this::_______;
     assertEquals("Good News Everbody", goodNews.apply("Everybody"));
   }
   @Test
