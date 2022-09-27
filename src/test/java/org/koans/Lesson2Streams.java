@@ -103,7 +103,7 @@ public class Lesson2Streams extends Koans
     Microwavable result = ObjectsInMicrowave()//
         .sorted(thenByName)//
         .findFirst().get();
-    assertEquals(10, result.FunFactor);
+    assertEquals(10, (int)result.FunFactor);
     assertEquals("Twinkies", result.Name);
   }
   @Test

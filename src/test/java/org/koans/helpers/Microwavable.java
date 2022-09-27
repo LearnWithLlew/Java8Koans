@@ -3,7 +3,7 @@ package org.koans.helpers;
 public class Microwavable
 {
   public String Name;
-  public int    FunFactor;
+  public Integer FunFactor;
   public String Effect;
   public String ___ = Koans.___;
   public static Microwavable create()
